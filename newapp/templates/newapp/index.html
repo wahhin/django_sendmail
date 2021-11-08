@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<h1>Risk Indicator</h1>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <!--Chart js-->
+    <title>Sample Graph</title>
+
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.6.0/chart.min.js" integrity="sha512-GMGzUEevhWh8Tc/njS0bDpwgxdCJLQBWG3Z2Ct+JGOpVnEmjvNx6ts4v6A2XJf1HOrtOsfhv3hBKpK9kE5z8AQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/chartjs-plugin-annotation/1.0.2/chartjs-plugin-annotation.min.js" integrity="sha512-FuXN8O36qmtA+vRJyRoAxPcThh/1KJJp7WSRnjCpqA+13HYGrSWiyzrCHalCWi42L5qH1jt88lX5wy5JyFxhfQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/chartjs-plugin-datalabels/2.0.0-rc.1/chartjs-plugin-datalabels.min.js" integrity="sha512-+UYTD5L/bU1sgAfWA0ELK5RlQ811q8wZIocqI7+K0Lhh8yVdIoAMEs96wJAIbgFvzynPm36ZCXtkydxu1cs27w==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+
+
+
+  </head>
+  <canvas id="myChart" width="500" height="200"></canvas>
+    <script>
+        var ctx = document.getElementById('myChart').getContext('2d');
+
+        const horizontalArbitraryline = {
+            id: 'horizontalArbitraryLine',
+            beforeDraw(chart, args, options){
+                const { ctx, chartArea:{ top, right, bottom, left, width, height}, scales:{x, y}} = chart;
+                ctx.save();
+
+                // draw a line
+                ctx.fillStyle =  'red';
+                ctx.fillRect(left,chart.getDatasetMeta(0).data[{{p25|safe}}].y - 2/2,width,2);
+                // x0 = starting point of the line in horizontal
+                // y0 = starting point of the line in vertical
+                // x1 = length of the line in horizontal level in pixel
+                // y1 = length of the line in vertical level in pixel
+
+                ctx.fillStyle =  'red';
+                ctx.fillRect(left+10,bottom-50,left+20,2);
+                ctx.fillText("25 Quantile", left+75, bottom-50);
+
+                ctx.fillStyle =  'black';
+                ctx.fillRect(left,chart.getDatasetMeta(0).data[{{p75|safe}}].y - 2/2,width,2);
+
+                ctx.fillStyle =  'black';
+                ctx.fillRect(left+10,bottom-20,left+20,2);
+                ctx.fillText("75 Quantile", left+75, bottom-20);
+
+
+                ctx.restore();
+
+            }
+        }
+
+        //window.myLine = new Chart(ctx, {
+        const myChart = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: {{labels|safe}},
+                    datasets: [{
+                        label: 'Risk Indicator',
+                        data: {{outputdata|safe}},
+                        backgroundColor: {{colors|safe}},
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    scales: {
+                        y: {
+                            beginAtZero: false
+                        }
+                    }
+                },
+                plugins: [horizontalArbitraryline],
+                /*plugins: {
+                    annotation: {
+                        annotations: {
+                            line1: {
+                                id: 'a-line-1',
+                                type: 'line',
+                                mode: 'horizontal',
+                                scaleID: 'y-axis-0',
+                                value: 0.75,
+                                borderColor: 'red',
+                                borderWidth: 2,
+                                label: {
+                                    enabled: true,
+                                    position: "top",
+                                    content: "somelabel"
+                                }
+                            }
+                        }
+                    }
+                }*/
+            }
+        );
+    </script>
+
+</html>
