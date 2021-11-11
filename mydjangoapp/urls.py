@@ -16,8 +16,12 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 from newapp.views import data
+from newapp.views import generate_PDF
+from newapp.views import SaveScreenshot
+
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('home/', data),
-    path('', data)
+    path('home/', generate_PDF),
+    path('', data),
+    path('api/save_screenshot', SaveScreenshot.as_view(), name='save-screenshot')
 ]

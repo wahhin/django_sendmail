@@ -30,3 +30,7 @@ class putcall(models.Model):
     Put_Call = models.DecimalField(max_digits=25, decimal_places=20)
     class Meta:
         db_table = 'putcall'
+
+
+class Screenshot(models.Model):
+    screenshot = models.ImageField(upload_to='img/screenshots/', help_text='Html2canvas screenshot')
