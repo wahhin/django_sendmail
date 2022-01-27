@@ -97,8 +97,14 @@
                         }
                     }
                 } */
-           animation:{onComplete: function () {window.JSREPORT_READY_TO_START =true}} }
+           animation:{onComplete: function () {
+            window.open(canvas.toDataURL('image/png'));}} }
+
+
         );
+
+
+
     </script>
 </html>
 </div>
