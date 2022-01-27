@@ -18,10 +18,12 @@ from django.urls import path
 from newapp.views import data
 from newapp.views import generate_PDF
 from newapp.views import SaveScreenshot
+from newapp.views import emails
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('home/', generate_PDF),
     path('', data),
-    path('api/save_screenshot', SaveScreenshot.as_view(), name='save-screenshot')
+    path('api/save_screenshot', SaveScreenshot.as_view(), name='save-screenshot'),
+    path('emails/', emails)
 ]
