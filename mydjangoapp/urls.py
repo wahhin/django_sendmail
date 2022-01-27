@@ -24,6 +24,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('home/', generate_PDF),
     path('', data),
-    path('api/save_screenshot', SaveScreenshot.as_view(), name='save-screenshot'),
+    path('save_screenshot/',SaveScreenshot),
     path('emails/', emails)
+
 ]
